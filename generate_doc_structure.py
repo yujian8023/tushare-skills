@@ -47,7 +47,10 @@ def build_tree(data):
 # 清理文件名，移除不合法字符
 def clean_filename(name):
     # 移除不合法的文件名字符
-    return re.sub(r'[<>:"/\\|?*]', '', name)
+    name = re.sub(r'[<>:"/\\|?*]', '', name)
+    name = name.replace('（', '(')
+    name = name.replace('）', ')')
+    return name
 
 # 生成目录结构
 def generate_structure(root_nodes, output_dir):
@@ -69,7 +72,8 @@ def generate_structure(root_nodes, output_dir):
                 _generate(child, current_path)
         else:
             # 叶子节点，创建.md文件
-            with codecs.open(current_path, 'w', 'utf-8') as f:
+            file_path = current_path+'.md'
+            with codecs.open(file_path, 'w', 'utf-8') as f:
                 f.write(node['content'])
     
     # 处理所有根节点
