@@ -1,82 +1,235 @@
-# Tushare Skill
+# tushare-skills
 
-[Tushare Pro](https://tushare.pro) 金融数据获取 Skill，支持 220+ 个金融数据接口。
+A task-oriented Tushare skill repository focused on **real user workflows**, not just endpoint listings.
 
-Tushare 官方提供的SKILL工具包。
+This repository is the **full working version** of the upgraded Tushare skill package, including:
+- the main `tushare/SKILL.md`
+- supporting references for task routing, examples, workflow playbooks, output templates, FAQ, and regression checks
+- continuity and validation notes under `tushare/research/`
 
-## 特性
+---
 
-- 💬 **自然语言交互** - 直接用中文描述需求即可获取数据
-- 📊 **丰富的数据类型** - 股票、财务、指数、宏观经济等
-- 🚀 **开箱即用** - AI Skill 即插即用
-- 📚 **完整的接口文档** - 包含 235+ Tushare API 接口
-- ✨ **符合官方标准** - 遵循 AI Skills 最佳实践
+## What this repository is
 
-## 安装
+`tushare-skills` is a practical Tushare skill repository built around **real finance research tasks in Chinese natural language**.
 
-### 1. 安装依赖
-* 安装nodejs（如果需要skills管理本地包-npx命令）， https://nodejs.cn/download/
-* 安装tushare， https://tushare.pro/document/1?doc_id=7
+Instead of treating Tushare as a long API catalog, this repository organizes the skill around questions users actually ask, such as:
+- 看看这只股票最近怎么样
+- 查下财报趋势
+- 最近哪个板块最强
+- 北向资金最近在买什么
+- 帮我筛一批股票
+- 导出一份行情数据
+- 给我做个研究简报
 
-### 2. 安装 Tushare Skill
-可以通过下面几种个方法（任何一种都可以）：
-* 将 tushare 目录复制到本地的 skills 目录：
-* 通过skills，安装github上的源码包
+The goal is to make Tushare usable as a **workflow skill**, not just a reference document.
+
+---
+
+## Relationship to the upstream PR
+
+A conservative upstream PR has already been submitted to:
+- `waditu-tushare/skills`
+
+That upstream PR focuses on updating the **main `tushare/SKILL.md` only**, so it is easier for the maintainers to review and accept.
+
+This repository keeps the **full validated package** locally and on GitHub, including:
+- references
+- research / trial notes
+- fix plans
+- retest summaries
+- final verdict
+
+In short:
+- **upstream PR** = lightweight, easier-to-review contribution
+- **this repository** = full skill package with supporting materials and validation history
+
+---
+
+## Current maturity
+
+Current stage assessment:
+
+> **Mature enough for real long-term use**
+
+Internal working verdict:
+
+> **9.2 / 10**
+
+Why:
+- main workflows have been restructured around tasks instead of endpoint dumps
+- regression design was completed
+- real smoke tests were run
+- real business trials were run across multiple task types
+- boundary / ambiguity / failure cases were tested
+- first-round fixes were applied and retested
+
+This repository is no longer just a draft skill.
+It is an actively validated workflow package.
+
+---
+
+## What has been validated
+
+### Real task categories validated
+- single-stock price analysis
+- financial trend reading
+- valuation snapshot
+- northbound fund-flow interpretation
+- sector rotation lookup
+- multi-asset comparison
+- candidate screening
+- CSV export workflow
+- ambiguity handling
+- non-trading-day empty-result handling
+- permission-boundary handling
+- ultra-short high-frequency user phrasing
+
+### Real interface paths validated
+Examples include:
+- `trade_cal`
+- `stock_basic`
+- `daily`
+- `daily_basic`
+- `fina_indicator`
+- `moneyflow_hsgt`
+- `index_daily`
+- `cn_cpi`
+- `hsgt_top10`
+
+A real permission boundary was also observed on:
+- `anns_d`
+
+So this repository includes both success-path validation and failure-path handling.
+
+---
+
+## Repository structure
+
+```text
+tushare/
+  SKILL.md
+  references/
+    endpoint-map.md
+    examples.md
+    workflow-playbooks.md
+    output-templates.md
+    faq.md
+    regression-checklist.md
+  research/
+    tushare-data-implementation-summary-2026-03-23.md
+    tushare-data-real-trial-report-2026-03-23.md
+    tushare-data-fix-plan-2026-03-23.md
+    tushare-data-fix-round1-summary-2026-03-23.md
+    tushare-data-boundary-trial-summary-2026-03-23.md
+    tushare-data-verdict-2026-03-23.md
+```
+
+### Roles of each layer
+- `SKILL.md` → main task-oriented skill definition
+- `references/` → reusable support files for execution, output, FAQ, examples, and regression
+- `research/` → continuity and validation history
+
+---
+
+## How to use
+
+### 1. Environment
+You need:
+- Python
+- `tushare`
+- a valid `TUSHARE_TOKEN`
+
+Install:
+
 ```bash
-npx skills add https://github.com/waditu-tushare/skills.git --skill tushare
-```
-* 通过skills，安装gitee上的源码包
-```bash
-npx skills add https://gitee.com/lwdt/skills.git --skill tushare
+pip install tushare -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-### 3. 配置 Token
-
-到 [Tushare 官网](https://tushare.pro) 注册账号并获取 API token：
+Set token:
 
 ```bash
-export TUSHARE_TOKEN="your_token_here"
+export TUSHARE_TOKEN=your_token
 ```
 
-## 使用方法
+---
 
-安装后并在本地智能体中加载该技能，之后可以用自然语言直接交流。
+### 2. Main entry
+Start from:
+- `tushare/SKILL.md`
 
-支持 claude code, openclaw, trae 等所有的通用智能体。
+That is the main skill definition.
 
+---
 
-### 交互文本示例
-**获取股票数据**：
-```
-获取平安银行最近 30 天的股价数据
-```
+### 3. When you need more detail
+Use:
+- `references/examples.md` for real user phrasing
+- `references/workflow-playbooks.md` for execution rules
+- `references/output-templates.md` for result shapes
+- `references/faq.md` for pitfalls and boundary handling
+- `references/regression-checklist.md` for validation and testing
 
-**财务分析**：
-```
-查看招商银行最近的财务报表，分析营收和净利润
-```
+---
 
-**股票筛选**：
-```
-帮我查找所有银行股并分析最近表现
-```
+### 4. If you want the reasoning history
+Read:
+- `research/` files
 
-**指数数据**：
-```
-获取上证指数最近的行情数据
-```
+These explain:
+- why the skill was restructured
+- what was tested in real runs
+- what failed
+- what was fixed
+- the current maturity verdict
 
-**宏观数据**：
-```
-查询最近一年的 GDP 和 CPI 数据
-```
+---
 
-### 工具权限
-- `Bash(python:*)`: 允许执行 Python 代码
-- `Read`: 允许读取接口文档
+## Current limitations
 
-## API 限制说明
-[Tushare 官方文档](https://tushare.pro/document/1?doc_id=290)
+This repository is mature, but not “finished forever.”
 
+Still worth improving over time:
+- richer finance trend modes (single-quarter / cumulative / YoY / TTM)
+- stronger valuation context (historical percentile / peer comparison)
+- more research-grade screening defaults
+- one more full-scale export validation beyond sample export
+- more issue-driven iteration from real long-term usage
 
-**注意**: 本项目仅供学习和研究使用，请勿用于商业用途。使用时请遵守 Tushare 的使用条款。
+---
+
+## Security / secret handling
+
+This repository should not contain:
+- raw API tokens
+- private keys
+- reusable secrets
+
+Current review result:
+- no obvious API key or private key leakage was found in the tracked working files during local scanning before writing this README
+
+Still, when adding future notes or examples:
+- never commit real `TUSHARE_TOKEN`
+- never commit SSH private keys
+- never paste live GitHub tokens into research notes
+
+---
+
+## Suggested working mode going forward
+
+Recommended maintenance loop:
+1. use the skill in real tasks
+2. capture concrete failures or friction points
+3. update the relevant workflow / FAQ / examples
+4. retest the affected cases
+5. record the change in `research/` if it affects future continuity
+
+This repository should evolve from **real usage**, not from endlessly expanding endpoint lists.
+
+---
+
+## Summary
+
+`tushare-skills` is the full, validated, task-oriented Tushare skill package.
+
+It exists to preserve not only the skill itself, but also the execution logic, test evidence, fixes, and continuity needed to make the skill genuinely useful over time.
