@@ -1,19 +1,9 @@
 # tushare-skills
 
-A task-oriented Tushare skill repository focused on **real user workflows**, not just endpoint listings.
+面向 **中文自然语言任务** 的 Tushare skill 仓库。  
+这个仓库的目标不是把 Tushare 当成一份长长的 API 目录，而是把它打磨成一个真正可用于 **研究工作流** 的技能系统。
 
-This repository is the **full working version** of the upgraded Tushare skill package, including:
-- the main `tushare/SKILL.md`
-- supporting references for task routing, examples, workflow playbooks, output templates, FAQ, and regression checks
-- continuity and validation notes under `tushare/research/`
-
----
-
-## What this repository is
-
-`tushare-skills` is a practical Tushare skill repository built around **real finance research tasks in Chinese natural language**.
-
-Instead of treating Tushare as a long API catalog, this repository organizes the skill around questions users actually ask, such as:
+它适合处理这类真实请求：
 - 看看这只股票最近怎么样
 - 查下财报趋势
 - 最近哪个板块最强
@@ -22,89 +12,80 @@ Instead of treating Tushare as a long API catalog, this repository organizes the
 - 导出一份行情数据
 - 给我做个研究简报
 
-The goal is to make Tushare usable as a **workflow skill**, not just a reference document.
+---
+
+## 这个仓库是什么
+
+`tushare-skills` 是我们针对 Tushare skill 做的一版 **完整重构与实战验证仓库**。
+
+它包含的不只是一个 `SKILL.md`，还包括：
+- 任务路由逻辑
+- 中文自然语言 examples
+- workflow playbooks
+- output templates
+- FAQ
+- regression checklist
+- 实施总结、真实试运行报告、修复计划与阶段 verdict
+
+一句话说：
+
+> 这不是“接口文档备份仓库”，而是“经过真实测试和修复迭代的 Tushare skill 主仓库”。
 
 ---
 
-## Relationship to the upstream PR
+## 和官方 PR 的关系
 
-A conservative upstream PR has already been submitted to:
-- `waditu-tushare/skills`
+我们已经向官方仓库提交了一个 **轻量版 PR**：
+- Upstream PR: https://github.com/waditu-tushare/skills/pull/2
 
-That upstream PR focuses on updating the **main `tushare/SKILL.md` only**, so it is easier for the maintainers to review and accept.
+同时也提交了一个 **权限升级 / 真实验证反馈 issue**：
+- Issue: https://github.com/waditu-tushare/skills/issues/3
 
-This repository keeps the **full validated package** locally and on GitHub, including:
-- references
-- research / trial notes
-- fix plans
-- retest summaries
-- final verdict
+### 为什么官方 PR 是轻量版
+因为官方仓库当前结构非常轻：
+- 主要是单个 `tushare/SKILL.md`
+- 还不是我们这种多层 skill 包结构
 
-In short:
-- **upstream PR** = lightweight, easier-to-review contribution
-- **this repository** = full skill package with supporting materials and validation history
+所以官方 PR 里，我只推进了：
+- 主 `SKILL.md` 的任务化升级
+
+而这个仓库保存的是：
+- 完整 skill 包
+- supporting references
+- 真实试运行结果
+- 修复与复测历史
+
+也就是说：
+
+- **官方 PR** → 更轻、更容易被接受
+- **这个仓库** → 更完整、可持续维护、带验证资产
 
 ---
 
-## Current maturity
+## 当前成熟度
 
-Current stage assessment:
-
-> **Mature enough for real long-term use**
-
-Internal working verdict:
+当前阶段性 verdict：
 
 > **9.2 / 10**
 
-Why:
-- main workflows have been restructured around tasks instead of endpoint dumps
-- regression design was completed
-- real smoke tests were run
-- real business trials were run across multiple task types
-- boundary / ambiguity / failure cases were tested
-- first-round fixes were applied and retested
+当前判断：
 
-This repository is no longer just a draft skill.
-It is an actively validated workflow package.
+> **已经进入“可真实长期使用”的成熟 skill 阶段**
 
----
-
-## What has been validated
-
-### Real task categories validated
-- single-stock price analysis
-- financial trend reading
-- valuation snapshot
-- northbound fund-flow interpretation
-- sector rotation lookup
-- multi-asset comparison
-- candidate screening
-- CSV export workflow
-- ambiguity handling
-- non-trading-day empty-result handling
-- permission-boundary handling
-- ultra-short high-frequency user phrasing
-
-### Real interface paths validated
-Examples include:
-- `trade_cal`
-- `stock_basic`
-- `daily`
-- `daily_basic`
-- `fina_indicator`
-- `moneyflow_hsgt`
-- `index_daily`
-- `cn_cpi`
-- `hsgt_top10`
-
-A real permission boundary was also observed on:
-- `anns_d`
-
-So this repository includes both success-path validation and failure-path handling.
+为什么能这么判断？因为这版 skill 已经不只是“文档写得完整”，而是完成了：
+- 结构重构
+- references 体系补齐
+- regression 设计
+- smoke test
+- 第一组真实业务题
+- 第二组真实业务题
+- 第三组边界 / 模糊 / 失败题
+- 第一批 fix + retest
+- continuity / verdict 文档沉淀
 
 ---
 
-## Repository structure
+## 仓库结构
 
 ```text
 tushare/
@@ -125,28 +106,28 @@ tushare/
     tushare-data-verdict-2026-03-23.md
 ```
 
-### Roles of each layer
-- `SKILL.md` → main task-oriented skill definition
-- `references/` → reusable support files for execution, output, FAQ, examples, and regression
-- `research/` → continuity and validation history
+### 各层职责
+- `SKILL.md`：主 skill，负责任务入口、workflow 和输出契约
+- `references/`：辅助说明层，负责 examples、playbooks、FAQ、输出模板、验收清单
+- `research/`：连续性与验证历史层，负责记录为什么这样设计、真实跑过什么、修了什么
 
 ---
 
-## How to use
+## 如何使用
 
-### 1. Environment
-You need:
+### 1. 环境准备
+需要：
 - Python
 - `tushare`
-- a valid `TUSHARE_TOKEN`
+- 有效的 `TUSHARE_TOKEN`
 
-Install:
+安装：
 
 ```bash
 pip install tushare -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-Set token:
+设置 token：
 
 ```bash
 export TUSHARE_TOKEN=your_token
@@ -154,82 +135,374 @@ export TUSHARE_TOKEN=your_token
 
 ---
 
-### 2. Main entry
-Start from:
+### 2. 主入口
+优先从这里开始：
 - `tushare/SKILL.md`
 
-That is the main skill definition.
+它定义了：
+- 什么时候触发这个 skill
+- 如何理解中文自然语言请求
+- 常见任务类型
+- 默认 workflow
+- 输出契约
 
 ---
 
-### 3. When you need more detail
-Use:
-- `references/examples.md` for real user phrasing
-- `references/workflow-playbooks.md` for execution rules
-- `references/output-templates.md` for result shapes
-- `references/faq.md` for pitfalls and boundary handling
-- `references/regression-checklist.md` for validation and testing
+### 3. 如果需要更细的支持文件
+可以按需看：
+- `references/examples.md` → 用户真实说法样例
+- `references/workflow-playbooks.md` → 执行规则
+- `references/output-templates.md` → 输出模板
+- `references/faq.md` → 常见坑与边界问题
+- `references/regression-checklist.md` → 验收清单
 
 ---
 
-### 4. If you want the reasoning history
-Read:
-- `research/` files
-
-These explain:
-- why the skill was restructured
-- what was tested in real runs
-- what failed
-- what was fixed
-- the current maturity verdict
-
----
-
-## Current limitations
-
-This repository is mature, but not “finished forever.”
-
-Still worth improving over time:
-- richer finance trend modes (single-quarter / cumulative / YoY / TTM)
-- stronger valuation context (historical percentile / peer comparison)
-- more research-grade screening defaults
-- one more full-scale export validation beyond sample export
-- more issue-driven iteration from real long-term usage
+### 4. 如果想看为什么这样设计
+读 `research/` 目录。  
+这里保存了：
+- 实施总结
+- 真实试运行报告
+- fix plan
+- fix round 1 summary
+- 边界测试总结
+- 最终 verdict
 
 ---
 
-## Security / secret handling
+## 真实测试过的任务类型
+这部分很重要。这个仓库不是“我们觉得应该能用”，而是已经跑过真实验证。
 
-This repository should not contain:
-- raw API tokens
-- private keys
-- reusable secrets
+### 已验证的主任务类型
+- 单票行情
+- 财务趋势
+- 估值快照
+- 北向资金分析
+- 板块轮动
+- 多标的对比
+- 筛选选股
+- 综合研究快照
+- CSV 导出
 
-Current review result:
-- no obvious API key or private key leakage was found in the tracked working files during local scanning before writing this README
+### 已验证的边界 / 失败 / 模糊场景
+- 歧义标的
+- 模糊导出
+- 非交易日空表
+- 权限不足接口
+- 超短高频问法
 
-Still, when adding future notes or examples:
-- never commit real `TUSHARE_TOKEN`
-- never commit SSH private keys
-- never paste live GitHub tokens into research notes
+### 已真实跑通过的接口路径（示例）
+- `trade_cal`
+- `stock_basic`
+- `daily`
+- `daily_basic`
+- `fina_indicator`
+- `moneyflow_hsgt`
+- `index_daily`
+- `cn_cpi`
+- `hsgt_top10`
+
+### 已真实命中的权限边界
+- `anns_d`
+
+真实返回内容：
+
+```text
+抱歉，您没有接口访问权限，权限的具体详情访问：https://tushare.pro/document/1?doc_id=108。
+```
+
+这也是为什么我们给官方提了权限升级 issue。
 
 ---
 
-## Suggested working mode going forward
+## 第一轮真实业务题与返回结果
+下面是我们之前真实试运行过的题目与核心返回结果摘要。
 
-Recommended maintenance loop:
-1. use the skill in real tasks
-2. capture concrete failures or friction points
-3. update the relevant workflow / FAQ / examples
-4. retest the affected cases
-5. record the change in `research/` if it affects future continuity
+### 1) 单票行情
+**题目：** `看下宁德时代最近三个月走势`
 
-This repository should evolve from **real usage**, not from endlessly expanding endpoint lists.
+**真实结果摘要：**
+- 宁德时代近三个月整体上涨 **9.23%**
+- 区间高点：**422.08**
+- 区间低点：**333.01**
+- 最新收盘：**413.00**
+- 数据范围：`300750.SZ, 2025-12-23 ~ 2026-03-20, 日线`
+- 记录数：**56**
 
 ---
 
-## Summary
+### 2) 财务趋势
+**题目：** `看下比亚迪最近8个季度营收和净利润趋势`
 
-`tushare-skills` is the full, validated, task-oriented Tushare skill package.
+**修后复测结果摘要：**
+- 按 `income` 主口径看：
+  - 营收从 **602315354000** 到 **566265546000**
+  - 净利润从 **31344070000** 到 **24231664000**
+- 再补充质量指标：
+  - 最新 ROE：**10.83**
 
-It exists to preserve not only the skill itself, but also the execution logic, test evidence, fixes, and continuity needed to make the skill genuinely useful over time.
+这次修后，workflow 已从“偏财务质量快照”调整为“更贴营收 / 净利润趋势题意”。
+
+---
+
+### 3) 估值判断
+**题目：** `茅台现在估值算高吗`
+
+**真实结果摘要：**
+- PE：**20.99**
+- PB：**7.97**
+- 股息率：**3.57%**
+- 总市值：**180953046.07 万元**
+- 数据范围：`600519.SH, 2026-03-01 ~ 2026-03-20`
+
+---
+
+### 4) 北向资金
+**题目：** `北向资金最近在买什么`
+
+**修后复测结果摘要：**
+- 按清洗后的 `moneyflow_hsgt` 口径：
+  - 近阶段北向资金累计方向为：**净流入**
+- 最近 5 个交易日 `north_money`：
+  - 2026-03-16：302804.92
+  - 2026-03-17：284664.94
+  - 2026-03-18：263657.09
+  - 2026-03-19：274632.03
+  - 2026-03-20：339088.06
+- 个股层默认展示 `hsgt_top10` 活跃成交名单，而不再强行做不稳定净买入排行榜
+- 活跃成交前五：
+  - 宁德时代
+  - 中际旭创
+  - 新易盛
+  - 天孚通信
+  - 紫金矿业
+
+---
+
+### 5) 板块轮动
+**题目：** `最近哪个板块最强`
+
+**真实结果摘要：**
+- 按申万行业日行情口径
+- 近阶段表现最强之一：**锂电池**
+- 区间涨幅约：**12.73%**
+- Top5 中还包括：
+  - 风电零部件
+  - 通信网络设备及器件
+  - 电池
+  - 国有大型银行Ⅱ
+
+---
+
+## 第二轮真实业务题与返回结果
+
+### 6) 多标的对比
+**题目：** `比一下茅台、五粮液、泸州老窖近一年的涨幅和估值`
+
+**真实结果摘要：**
+- 贵州茅台：**-2.83%**，PE **20.99**，PB **7.97**
+- 泸州老窖：**-15.84%**，PE **11.49**，PB **3.25**
+- 五粮液：**-21.74%**，PE **12.48**，PB **3.00**
+
+结论：
+- 近一年三者都回撤
+- 茅台跌幅最小，表现相对最好
+- 但估值也明显更贵
+
+---
+
+### 7) 筛选选股
+**题目：** `帮我筛一批高ROE低负债的股票`
+
+**修后复测结果摘要：**
+- 已将筛选语义调整为“候选池”
+- 增加估值约束：`PB < 15`
+- 在沪深300样本中筛出 **9 只**更平衡候选标的
+- 结果比早期“单纯高 ROE + 低负债”更接近研究筛选
+
+---
+
+### 8) 综合研究简报
+**题目：** `给我快速研究一下中际旭创`
+
+**真实结果摘要：**
+- 近三个月股价：**-1.45%**
+- 当前 PE：**131.49**
+- PB：**22.66**
+- 结论风格：
+  - 更像需要结合业绩与景气度一起评估的成长股
+  - 不适合只看静态估值
+
+---
+
+### 9) 导出任务
+**题目：** `把沪深300成分股近两年日线导成CSV`
+
+**真实结果摘要：**
+- 当前已完成 **样本试跑**
+- 使用沪深300最新成分中的前 **10 只股票**
+- 导出近两年日线成功
+- 导出行数：**4970**
+- 导出路径示例：
+
+```text
+/Users/yujian/.openclaw/workspace/tmp_hs300_sample_daily_retest_20240301_20260320.csv
+```
+
+这一步已经证明导出链路成立，但完整全量导出仍可继续加强。
+
+---
+
+## 第三轮边界 / 模糊 / 失败题与返回结果
+
+### 10) 歧义标的
+**题目：** `帮我看下中航最近怎么样`
+
+**真实结果摘要：**
+- 实际检索出 **8 个候选标的**
+- 包括：中航西飞、中航机载、中航沈飞、中航重机、中航高科、中航光电、中航成飞、中航泰达
+
+结论：
+- 正确行为应是 **最小澄清**
+- 不能盲猜
+
+---
+
+### 11) 模糊导出
+**题目：** `给我导一份数据`
+
+**真实结果摘要：**
+- 不能直接执行为单一导出任务
+- 正确行为应先澄清：
+  - 导什么数据
+  - 哪些标的
+  - 时间范围
+  - CSV 还是 Parquet
+- 如果用户只想看方案，应先进入 `dry-run`
+
+---
+
+### 12) 非交易日空表
+**题目：** `帮我查一个非交易日的日线数据`
+
+**真实结果摘要：**
+- `2026-03-22` 被交易日历识别为：**非交易日**
+- 对应日线结果记录数：**0**
+
+结论：
+- 空表在这里不是失败
+- 正确解释应先说明“非交易日”
+
+---
+
+### 13) 权限不足接口
+**题目：** `帮我梳理下最近的重要公告`
+
+**真实结果摘要：**
+- 再次命中 `anns_d` 权限不足
+- 说明当前 token 在公告类 workflow 上存在权限边界
+
+结论：
+- 应正确归因为权限问题
+- 不应误判成 skill / 代码错误
+
+---
+
+### 14) 超短高频问法
+**题目：** `今天最强板块`
+
+**真实结果摘要：**
+- 已真实落地成“单日板块强度排行”
+- 当前口径下，今日最强板块之一：**光伏加工设备**
+- 涨幅约：**6.37%**
+- Top5 还包括：
+  - 分立器件
+  - 光伏设备
+  - 通信网络设备及器件
+  - 锂电池
+
+结论：
+- skill 已具备把超短句补全成真实 workflow 的能力
+
+---
+
+## 真实试运行后修过什么
+目前已经完成第一批 fix 闭环，主要修了这 4 个问题：
+
+### 1. 财务趋势 workflow
+- 从 `fina_indicator` 主导
+- 改成 `income` 主、`fina_indicator` 辅
+
+### 2. 北向资金 workflow
+- `moneyflow_hsgt` 看整体方向
+- `hsgt_top10` 看活跃成交名单
+- 不再强行依赖不稳定字段做净买入排行榜
+
+### 3. 筛选任务默认语义
+- 明确区分：候选池 vs 最终结论
+- 增加估值 / 样本池解释意识
+
+### 4. 导出任务说明层
+- 明确区分：样本试跑 / 完整导出 / dry-run
+
+---
+
+## 当前还不完美的地方
+虽然已经进入真实长期使用阶段，但还有提升空间：
+
+### 1. 研究级输出还能更强
+例如：
+- 财务趋势自动切换单季 / 累计 / 同比 / TTM
+- 估值自动补历史分位 / 同业比较
+- 综合研究自动补风险点与催化
+
+### 2. 筛选 still 更像候选池生成
+可以继续补：
+- 行业约束
+- 市值约束
+- 估值上限
+- 缺失值规则
+
+### 3. 导出还需一次完整全量验证
+目前全量导出闭环还没完全跑透，样本试跑已证明路径成立。
+
+---
+
+## 安全与泄漏检查
+这个仓库当前已经做过一轮本地扫描，检查了：
+- GitHub token
+- 通用 API key / secret / token
+- `TUSHARE_TOKEN` 明文
+- SSH private key
+- 可疑长串 secret
+
+### 当前结果
+**没有发现明显 API key / private key 泄漏。**
+
+后续维护时仍需遵守：
+- 不要提交真实 `TUSHARE_TOKEN`
+- 不要提交 GitHub token
+- 不要提交 SSH private key
+- 示例里永远用占位符，不用真实值
+
+---
+
+## 推荐的后续维护方式
+这个仓库后续不应该再走“越堆接口越完整”的路，而应继续按这条路线：
+
+1. 用 skill 跑真实任务
+2. 记录具体失败点或卡点
+3. 修对应 workflow / FAQ / examples
+4. 复测相关 case
+5. 如果影响长期理解，再写进 `research/`
+
+也就是：
+
+> **真实使用驱动迭代，而不是继续堆接口文档。**
+
+---
+
+## 一句话总结
+`tushare-skills` 现在已经不是“一个整理过的 Tushare skill 文件”，而是：
+
+> **一个经真实任务验证、经过 fix + retest、可进入长期使用阶段的 Tushare 研究技能主仓库。**
